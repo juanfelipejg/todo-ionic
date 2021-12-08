@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { List } from 'src/app/models/list.model';
 import { WishesService } from 'src/app/services/wishes.service';
 
 @Component({
@@ -8,6 +10,13 @@ import { WishesService } from 'src/app/services/wishes.service';
 })
 export class Tab1Page {
 
-  constructor(public wishesService: WishesService) {}
+  constructor(
+    public wishesService: WishesService,
+    private router: Router,
+  ) { }
+
+  public addList(): void {
+    this.router.navigateByUrl('tabs/tab1/add');
+  }
 
 }
