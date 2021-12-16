@@ -39,14 +39,14 @@ export class Tab1Page {
               return;
             }
 
-            this.wishesService.createList(data?.title);
+            const listId = this.wishesService.createList(data?.title);
+            this.router.navigateByUrl(`tabs/tab1/add/${listId}`);
           },
         }
       ]
     });
 
     await alert.present();
-  //this.router.navigateByUrl('tabs/tab1/add');
   }
 
 }

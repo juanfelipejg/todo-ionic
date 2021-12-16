@@ -12,10 +12,11 @@ export class WishesService {
     this.loadLocalStorage();
   }
 
-  createList(title: string) {
+  createList(title: string): number {
     const list = new List(title);
     this.lists.push(list);
     this.saveLocalStorage();
+    return list?.id;
   }
 
   saveLocalStorage(): void {
@@ -26,5 +27,11 @@ export class WishesService {
     if (localStorage.getItem('data')) {
       this.lists = JSON.parse(localStorage.getItem('data'));
     }
+  }
+
+  getList(id: number | string): List {
+    const listId = Number(id);
+
+    return this.lists?.find((list) => list?.id === listId);
   }
 }
