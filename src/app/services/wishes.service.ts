@@ -9,14 +9,22 @@ export class WishesService {
   lists: List[] = [];
 
   constructor() {
-    const list1 = new List('Get infinite stocks');
-    const list2 = new List('Get became super sayayin');
-
-    this.lists.push(list1, list2);
+    this.loadLocalStorage();
   }
 
   createList(title: string) {
     const list = new List(title);
     this.lists.push(list);
+    this.saveLocalStorage();
+  }
+
+  saveLocalStorage(): void {
+    localStorage.setItem('data', JSON.stringify(this.lists));
+  }
+
+  loadLocalStorage(): void {
+    if (localStorage.getItem('data')) {
+      this.lists = JSON.parse(localStorage.getItem('data'));
+    }
   }
 }
