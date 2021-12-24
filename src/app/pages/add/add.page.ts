@@ -33,6 +33,11 @@ export class AddPage {
     this.description = '';
   }
 
+  deleteItem(index: number) {
+    this.list?.items?.splice(index, 1);
+    this.wishService.saveLocalStorage();
+  }
+
   checkChange() {
     const totalPendingItems = this.list?.items?.filter((itemList) => !itemList?.isComplete)?.length;
 
