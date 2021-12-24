@@ -32,4 +32,18 @@ export class AddPage {
     this.wishService.saveLocalStorage();
     this.description = '';
   }
+
+  checkChange() {
+    const totalPendingItems = this.list?.items?.filter((itemList) => !itemList?.isComplete)?.length;
+
+    if (!totalPendingItems) {
+      this.list.finishDate = new Date();
+      this.list.isFinished = true;
+    } else {
+      this.list.finishDate = null;
+      this.list.isFinished = false;
+    }
+
+    this.wishService.saveLocalStorage();
+  }
 }
