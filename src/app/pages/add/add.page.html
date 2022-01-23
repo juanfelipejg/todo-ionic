@@ -20,7 +20,7 @@
   </ion-list>
 
   <ion-list>
-    <ion-list-header color="dark">
+    <ion-list-header *ngIf="list?.items?.length" color="dark">
       <ion-label>Tasks to do</ion-label>
     </ion-list-header>
     <ion-item-sliding      
