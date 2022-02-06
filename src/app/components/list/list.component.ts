@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertController, IonList } from '@ionic/angular';
 import { List } from 'src/app/models/list.model';
 import { WishesService } from 'src/app/services/wishes.service';
 
@@ -10,10 +11,12 @@ import { WishesService } from 'src/app/services/wishes.service';
 })
 export class ListComponent implements OnInit {
   @Input() finishedPage: boolean;
+  @ViewChild('list') list: IonList;
 
   constructor(
     public wishesService: WishesService,
     public router: Router,
+    private alert: AlertController,
   ) { }
 
   ngOnInit() {}
@@ -26,4 +29,44 @@ export class ListComponent implements OnInit {
     };
   }
 
+  deleteList(list: List): void {
+    this.wishesService.deleteList(list);
+  }
+
+  public async editList(list: List) {
+    const alert = await this.alert.create({
+      header: 'Edit list',
+      inputs: [
+        {
+          name: 'title',
+          type: 'text',
+          value: list?.title,
+          placeholder: 'Name of list',
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            this.list.closeSlidingItems();
+          }
+        },
+        {
+          text: 'Accept',
+          handler: (data) => {
+            if (data?.title?.length === 0) {
+              return;
+            }
+
+            list.title = data?.title;
+            this.wishesService.saveLocalStorage();
+            this.list.closeSlidingItems();
+          },
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 }

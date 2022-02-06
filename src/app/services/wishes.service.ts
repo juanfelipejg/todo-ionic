@@ -12,6 +12,12 @@ export class WishesService {
     this.loadLocalStorage();
   }
 
+  getList(id: number | string): List {
+    const listId = Number(id);
+
+    return this.lists?.find((list) => list?.id === listId);
+  }
+
   createList(title: string): number {
     const list = new List(title);
     this.lists.push(list);
@@ -19,19 +25,18 @@ export class WishesService {
     return list?.id;
   }
 
+  deleteList(list: List): void {
+    this.lists = this.lists.filter((listData) => listData?.id !== list?.id);
+    this.saveLocalStorage();
+  }
+
   saveLocalStorage(): void {
     localStorage.setItem('data', JSON.stringify(this.lists));
   }
 
-  loadLocalStorage(): void {
+  private loadLocalStorage(): void {
     if (localStorage.getItem('data')) {
       this.lists = JSON.parse(localStorage.getItem('data'));
     }
-  }
-
-  getList(id: number | string): List {
-    const listId = Number(id);
-
-    return this.lists?.find((list) => list?.id === listId);
   }
 }
